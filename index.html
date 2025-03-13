@@ -96,10 +96,11 @@
     
     <script>
         let tapCount = 0;
+        let flirtyIndex = 0;
         const flirtyLines = [
             "You are so pretty. 😍",
             "You are smart too 😘",
-            "You are nerd too , like studying this is bad 😂",
+            "You are nerd too, like studying this is bad 😂",
             "You are little little Bodmas too😉",
             "Did we just match on a dating app? Because this feels like fate. 💕"
         ];
@@ -119,7 +120,8 @@
         function tapHeart() {
             tapCount++;
             document.getElementById('tapCount').innerText = `Taps: ${tapCount}/5`;
-            document.getElementById('flirtyLine').innerText = flirtyLines[Math.floor(Math.random() * flirtyLines.length)];
+            document.getElementById('flirtyLine').innerText = flirtyLines[flirtyIndex];
+            flirtyIndex = (flirtyIndex + 1) % flirtyLines.length;
             
             if (tapCount >= 5) {
                 document.getElementById('heartGame').classList.add('hidden');
