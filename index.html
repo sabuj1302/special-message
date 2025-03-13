@@ -15,19 +15,22 @@
         <div id="question1" class="question">
             <p>What's your favorite color? 🌈</p>
             <input type="text" id="colorInput" placeholder="Type here...">
-            <button onclick="nextQuestion('question1', 'question2')">Next</button>
+            <button onclick="changeThemeAndNext()">Next</button>
         </div>
 
         <div id="question2" class="question hidden">
             <p>What's your favorite animal? 🐶🐱🦄</p>
             <input type="text" id="animalInput" placeholder="Type here...">
-            <button onclick="startChallenge()">Next</button>
+            <button onclick="startEscapeGame()">Next</button>
         </div>
 
-        <div id="challenge" class="hidden">
-            <p>Tap the heart ❤️ 5 times to win!</p>
-            <button id="heartButton" onclick="tapHeart()">❤️</button>
-            <p id="tapCount">Taps: 0/5</p>
+        <div id="escapeGame" class="hidden">
+            <p>Try escaping without getting caught! 🤭</p>
+            <p>Move the circle 🟢 without touching the edges!</p>
+            <div id="gameArea">
+                <div id="player"></div>
+            </div>
+            <p id="escapeMessage" class="hidden">You're good at escaping, but let's see if you can finish without getting detected! 😏</p>
         </div>
 
         <div id="finalMessage" class="hidden">
@@ -43,6 +46,7 @@
             background-color: #ffefef;
             text-align: center;
             padding: 50px;
+            transition: background-color 0.5s ease;
         }
 
         .container {
@@ -62,7 +66,7 @@
             color: #444;
         }
 
-        .question, #challenge, #finalMessage {
+        .question, #escapeGame, #finalMessage {
             margin-top: 20px;
         }
 
@@ -90,29 +94,54 @@
         .hidden {
             display: none;
         }
+
+        #gameArea {
+            width: 300px;
+            height: 300px;
+            border: 3px solid black;
+            margin: auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #player {
+            width: 30px;
+            height: 30px;
+            background-color: green;
+            border-radius: 50%;
+            position: absolute;
+            left: 135px;
+            top: 135px;
+        }
     </style>
     
     <script>
-        let tapCount = 0;
-        
-        function nextQuestion(current, next) {
-            document.getElementById(current).classList.add('hidden');
-            document.getElementById(next).classList.remove('hidden');
+        function changeThemeAndNext() {
+            let color = document.getElementById('colorInput').value;
+            document.body.style.backgroundColor = color;
+            document.getElementById('question1').classList.add('hidden');
+            document.getElementById('question2').classList.remove('hidden');
         }
 
-        function startChallenge() {
+        function startEscapeGame() {
             document.getElementById('question2').classList.add('hidden');
-            document.getElementById('challenge').classList.remove('hidden');
+            document.getElementById('escapeGame').classList.remove('hidden');
         }
 
-        function tapHeart() {
-            tapCount++;
-            document.getElementById('tapCount').innerText = `Taps: ${tapCount}/5`;
-            if (tapCount >= 5) {
-                document.getElementById('challenge').classList.add('hidden');
-                document.getElementById('finalMessage').classList.remove('hidden');
+        document.addEventListener("touchmove", function(event) {
+            let player = document.getElementById("player");
+            let gameArea = document.getElementById("gameArea");
+            let touch = event.touches[0];
+            let x = touch.clientX - gameArea.offsetLeft - (player.offsetWidth / 2);
+            let y = touch.clientY - gameArea.offsetTop - (player.offsetHeight / 2);
+            
+            if (x >= 0 && x <= (gameArea.clientWidth - player.clientWidth) && y >= 0 && y <= (gameArea.clientHeight - player.clientHeight)) {
+                player.style.left = x + "px";
+                player.style.top = y + "px";
+            } else {
+                alert("Oops! You got caught! Try again! 😆");
             }
-        }
+        });
     </script>
 </body>
 </html>
