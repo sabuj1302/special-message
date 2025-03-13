@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Someone Special ❤️</title>
+    <title>For Gungun ❤️</title>
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>Hey, you! 💖</h1>
+        <h1>Hey Gungun! 💖</h1>
         <p>Let's see if you can complete this little game! 😏</p>
         
         <div id="question1" class="question">
@@ -21,20 +21,17 @@
         <div id="question2" class="question hidden">
             <p>What's your favorite animal? 🐶🐱🦄</p>
             <input type="text" id="animalInput" placeholder="Type here...">
-            <button onclick="startEscapeGame()">Next</button>
+            <button onclick="startHeartGame()">Next</button>
         </div>
 
-        <div id="escapeGame" class="hidden">
-            <p>Try escaping without getting caught! 🤭</p>
-            <p>Move the circle 🟢 without touching the edges!</p>
-            <div id="gameArea">
-                <div id="player"></div>
-            </div>
-            <p id="escapeMessage" class="hidden">You're good at escaping, but let's see if you can finish without getting detected! 😏</p>
+        <div id="heartGame" class="hidden">
+            <p>Tap the heart ❤️ 5 times to win!</p>
+            <button id="heartButton" onclick="tapHeart()">❤️</button>
+            <p id="tapCount">Taps: 0/5</p>
         </div>
 
         <div id="finalMessage" class="hidden">
-            <h2>You did it! 🎉</h2>
+            <h2>You did it, Gungun! 🎉</h2>
             <p>You are special, you deserve to be loved the right way! 💖</p>
             <p>You must be an angel, else humans can't complete this! 😇</p>
         </div>
@@ -66,7 +63,7 @@
             color: #444;
         }
 
-        .question, #escapeGame, #finalMessage {
+        .question, #heartGame, #finalMessage {
             margin-top: 20px;
         }
 
@@ -94,28 +91,11 @@
         .hidden {
             display: none;
         }
-
-        #gameArea {
-            width: 300px;
-            height: 300px;
-            border: 3px solid black;
-            margin: auto;
-            position: relative;
-            overflow: hidden;
-        }
-
-        #player {
-            width: 30px;
-            height: 30px;
-            background-color: green;
-            border-radius: 50%;
-            position: absolute;
-            left: 135px;
-            top: 135px;
-        }
     </style>
     
     <script>
+        let tapCount = 0;
+        
         function changeThemeAndNext() {
             let color = document.getElementById('colorInput').value;
             document.body.style.backgroundColor = color;
@@ -123,25 +103,19 @@
             document.getElementById('question2').classList.remove('hidden');
         }
 
-        function startEscapeGame() {
+        function startHeartGame() {
             document.getElementById('question2').classList.add('hidden');
-            document.getElementById('escapeGame').classList.remove('hidden');
+            document.getElementById('heartGame').classList.remove('hidden');
         }
 
-        document.addEventListener("touchmove", function(event) {
-            let player = document.getElementById("player");
-            let gameArea = document.getElementById("gameArea");
-            let touch = event.touches[0];
-            let x = touch.clientX - gameArea.offsetLeft - (player.offsetWidth / 2);
-            let y = touch.clientY - gameArea.offsetTop - (player.offsetHeight / 2);
-            
-            if (x >= 0 && x <= (gameArea.clientWidth - player.clientWidth) && y >= 0 && y <= (gameArea.clientHeight - player.clientHeight)) {
-                player.style.left = x + "px";
-                player.style.top = y + "px";
-            } else {
-                alert("Oops! You got caught! Try again! 😆");
+        function tapHeart() {
+            tapCount++;
+            document.getElementById('tapCount').innerText = `Taps: ${tapCount}/5`;
+            if (tapCount >= 5) {
+                document.getElementById('heartGame').classList.add('hidden');
+                document.getElementById('finalMessage').classList.remove('hidden');
             }
-        });
+        }
     </script>
 </body>
 </html>
