@@ -28,6 +28,7 @@
             <p>Tap the heart ❤️ 5 times to win!</p>
             <button id="heartButton" onclick="tapHeart()">❤️</button>
             <p id="tapCount">Taps: 0/5</p>
+            <p id="flirtyLine">😉</p>
         </div>
 
         <div id="finalMessage" class="hidden">
@@ -95,6 +96,13 @@
     
     <script>
         let tapCount = 0;
+        const flirtyLines = [
+            "Are you a magician? Because whenever I look at you, everyone else disappears. 😍",
+            "Do you believe in love at first tap? Because I just fell for you. 😘",
+            "Are you WiFi? Because I'm really feeling a connection. 🔥",
+            "Are you a keyboard? Because you're just my type. 😉",
+            "Did we just match on a dating app? Because this feels like fate. 💕"
+        ];
         
         function changeThemeAndNext() {
             let color = document.getElementById('colorInput').value;
@@ -111,6 +119,8 @@
         function tapHeart() {
             tapCount++;
             document.getElementById('tapCount').innerText = `Taps: ${tapCount}/5`;
+            document.getElementById('flirtyLine').innerText = flirtyLines[Math.floor(Math.random() * flirtyLines.length)];
+            
             if (tapCount >= 5) {
                 document.getElementById('heartGame').classList.add('hidden');
                 document.getElementById('finalMessage').classList.remove('hidden');
